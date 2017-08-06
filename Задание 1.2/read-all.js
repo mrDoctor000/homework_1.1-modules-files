@@ -1,26 +1,30 @@
 const fs = require('fs');
-
+const readFile = (path) => {
+  return new Promise((done, fail) => {
+    fs.readFile(path + file, (err, content) => {
+      if (err) fail(err);
+      if (content === undefined) done();
+      const readFile = {
+        'name': file,
+        'content': content.toString()
+      }
+      done(readFile);
+    })
+  })
+}
 
 const readDir = function(path) {
   return new Promise((done, fail) => {
-    const readDir = [];
     fs.readdir(path, (err, files) => {
       if (err) fail(err);
-      files.forEach(file => {
-        fs.readFile(path + file, (err, content) => {
-          if (err) fail(err);
-          if (content === undefined) return
-          const readFile = {
-            'name': file,
-            'content': content.toString()
-          }
-          readDir.push(readFile);
-        });
+      done(files);
+    })
 
-      })
-      done(readDir);
-    });
   });
 }
 
-module.exports = readDir;
+const readAll = path => readDir(path).then(files => Promise.all(files.forEach(file => readFile(path + file))))
+
+
+
+module.exports = readAll;
