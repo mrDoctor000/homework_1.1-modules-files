@@ -8,5 +8,10 @@ function show(file) {
 }
 
 readAll('./logs/')
-  .then(files => files.forEach(show))
+  .then(files => files.forEach(file => file.then(show)))
   .catch(err => console.error(err));
+/*
+readAll('./logs/')
+  .then(file => Promise.all(file))
+  .then(results => results.forEach(show))
+  .catch(err => console.error(err));*/
