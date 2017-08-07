@@ -1,12 +1,14 @@
 const fs = require('fs');
-const readFile = (path) => {
+const readFile = (path, file) => {
   return new Promise((done, fail) => {
-    fs.readFile(path + file, (err, content) => {
-      if (err) fail(err);
-      if (content === undefined) done();
+    fs.readFile(path, 'utf8', (err, content) => {
+      if (err) {
+        fail(err);
+        return;
+      }
       const readFile = {
         'name': file,
-        'content': content.toString()
+        'content': content
       }
       done(readFile);
     })
@@ -16,14 +18,18 @@ const readFile = (path) => {
 const readDir = function(path) {
   return new Promise((done, fail) => {
     fs.readdir(path, (err, files) => {
-      if (err) fail(err);
+      if (err) {
+        fail(err);
+        return;
+      }
       done(files);
     })
 
   });
 }
 
-const readAll = path => readDir(path).then(files => Promise.all(files.forEach(file => readFile(path + file))))
+const readAll = path => readDir(path)
+  .then(files => files.map(file => readFile(path + file, file)))
 
 
 
