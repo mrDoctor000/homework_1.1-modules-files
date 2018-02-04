@@ -1,5 +1,7 @@
+const fs = require('fs');
+
 const read = (file) => {
-  const fs = require('fs');
+
   const conf = {
     encoding: 'utf8'
   };
@@ -15,7 +17,6 @@ const read = (file) => {
 };
 
 const write = (file, data) => {
-  const fs = require('fs');
   const conf = {
     encoding: 'utf8'
   };

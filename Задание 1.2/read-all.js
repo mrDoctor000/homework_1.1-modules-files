@@ -29,7 +29,7 @@ const readDir = function(path) {
 }
 
 const readAll = path => readDir(path)
-  .then(files => files.map(file => readFile(path + file, file)))
+  .then(files => Promise.all(files.map(file => readFile(path + file, file))))
 
 
 
